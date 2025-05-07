@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Final Surprise</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            font-family: 'Dancing Script', cursive;
+            background: linear-gradient(to right, #ffe0f0, #fff0f5);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            position: relative;
+        }
+
+        #hearts-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 24px;
+            animation-name: fall-heart;
+            animation-timing-function: linear;
+            animation-iteration-count: 1;
+        }
+
+        @keyframes fall-heart {
+            0% {
+                transform: translateY(-10%);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(110vh);
+                opacity: 0;
+            }
+        }
+
+        .text-box {
+            z-index: 2;
+            background-color: #fff;
+            color: #d81b60;
+            font-size: 2em;
+            text-align: center;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            max-width: 80%;
+            animation: swipe 0.5s ease-in-out;
+        }
+
+        @keyframes swipe {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .button-wrapper {
+            margin-top: 30px;
+            z-index: 2;
+        }
+
+        .button-wrapper button {
+            background-color: #ff69b4;
+            color: white;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 12px;
+            padding: 12px 30px;
+            margin: 10px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .button-wrapper button:hover {
+            background-color: #e91e63;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="hearts-container"></div>
+
+    <div class="text-box" id="text-box">You are amazing!</div>
+
+    <div class="button-wrapper">
+        <button id="nextBtn" onclick="nextMessage()">Next</button>
+        <button id="doneBtn" onclick="endSurprise()" style="display:none;">Done</button>
+    </div>
+
+    <script>
+        const messages = [
+            "This day belongs to the truly special person — you.",
+  "You make the world a better place just by being in it.",
+  "And you're appreciated more than words can say.",
+  "Keep being the incredible person you are.",
+  "Happy Birthday Sreeju",
+  "Wishing you happiness that never ends."
+];
+
+        let index = 0;
+
+        function nextMessage() {
+            index++;
+            const textBox = document.getElementById("text-box");
+            if (index < messages.length) {
+                textBox.innerText = messages[index];
+                textBox.classList.remove("swipe");
+                void textBox.offsetWidth; // Force reflow
+                textBox.classList.add("swipe");
+            } else {
+                document.getElementById("nextBtn").style.display = "none";
+                document.getElementById("doneBtn").style.display = "inline-block";
+            }
+        }
+
+        function endSurprise() {
+    document.body.innerHTML = "<h1 style='text-align:center; margin-top:40vh; font-family: cursive; color: #e91e63;'>Thank you! Lots of love!</h1>";
+}
+
+        // Falling hearts
+        const heartContainer = document.getElementById("hearts-container");
+        setInterval(() => {
+            const heart = document.createElement("span");
+            heart.className = "heart";
+            heart.innerText = "❤️";
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.animationDuration = 2 + Math.random() * 3 + "s";
+            heart.style.top = "-20px";
+            heartContainer.appendChild(heart);
+            setTimeout(() => heart.remove(), 5000);
+        }, 300);
+    </script>
+
+</body>
+</html>
